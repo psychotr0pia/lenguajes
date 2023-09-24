@@ -1,0 +1,6 @@
+#ignore Flex and Yacc (Bison) generated files
+*.yy.c
+*.yy.h
+*.tab.c
+*.tab.h
+
