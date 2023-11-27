@@ -1,5 +1,15 @@
-calc_token: scanner_calc.l calculadora_parser.y
-			bison -d calculadora_parser.y
-			flex scanner_calc.l
-			gcc -Wall -o $@ calculadora_parser.tab.c lex.yy.c -lfl
-clean: rm calculadora_parser.tab.* lex.yy.c calc_token
+CC = gcc
+CFLAGS = -Wall -Wextra
+LDFLAGS = -lSDL2
+
+TARGET = sdl_example
+
+all: $(TARGET)
+
+$(TARGET): test.c
+	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(TARGET)

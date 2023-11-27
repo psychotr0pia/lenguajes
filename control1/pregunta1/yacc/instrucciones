@@ -1,5 +1,6 @@
 - Instalar Windows Subsystems for Linux, y aplicarlo para vscode https://code.visualstudio.com/docs/cpp/config-wsl
 - despues, descargar e isntalar los paquetes bison y yacc. Listo ello, descargar las librerias necesaarias en c libbison-dev y libfl-dev
+- tambien descargar el paquete para dibujar el puntero: sudo apt-get install libsdl2-dev
 
 Para correrlo en Linux, uso los siguientes comandos:
 - yacc -d pregunta1.y; #archivo parser, genera y.tab.c
