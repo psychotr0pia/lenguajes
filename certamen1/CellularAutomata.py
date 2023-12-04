@@ -1,38 +1,74 @@
 import numpy as np
 import matplotlib.pyplot as plt
-# GLOBAL VARIABLES
-COLS = 10
-ROWS = 10
+import matplotlib.animation as animation
+from matplotlib.patches import Patch
+from matplotlib.lines import Line2D
 
-# functions
-def make2DArray(cols, rows):
-    array_2d = np.zeros((rows, cols), dtype=int)
-    return array_2d
+# Set the size of the grid
+size_x, size_y, size_z = 20, 20, 5
 
-def randomFill2DArray(array):
-    array[:] = np.random.choice([0, 1], size=array.shape)
+# Set parameters for SEIRD model
+lambda_rate = 0.02  # Exposure rate
+beta = 0.2  # Infection rate
+alpha = 0.1  # Recovery rate
+delta = 0.05  # Mortality rate
 
-def neighboors(array,row, col):
-    liveNeighbors = 0
-    ROWS, COLS = array.shape
-    for i in range(-1, 2): #loopear para encontrar celular vecinas
-        for j in range(-1, 2):
-            if i == 0 and j == 0: #estas coords correspondan a la celula del medio
-                continue
-            if row + i < 0 or col + j < 0 or row + i >= ROWS or col + j >= COLS: #vecinos se salen de la grilla
-                continue
-            liveNeighbors = liveNeighbors + array[row+i][col+j]
-    return liveNeighbors
+# Initialize the grid with all susceptible individuals
+initial_state = np.zeros((size_x, size_y, size_z))
 
-def applyRule(grid):
-    ROWS, COLS = grid.shape
-    gridNew = np.copy(grid) #hacemos los cambios en el array nuevo
-    for i in 
+# Function to update the state of the grid based on SEIRD model rules
+def update(frameNum, imgs, grid, size_x, size_y, size_z):
+    newGrid = grid.copy()
 
-grid = make2DArray(COLS, ROWS) #creamos el array
-randomFill2DArray(grid) #lo llenamos de 1 y 0 de forma aleatoria
-print(grid)
-n = neighboors(grid, 8, 9)
-print(n)
-#print(left, mid,right)
+    for i in range(size_x):
+        for j in range(size_y):
+            for k in range(size_z):
+                # Rule: Susceptible to Exposed
+                if grid[i, j, k] == 0 and np.random.rand() < lambda_rate:
+                    newGrid[i, j, k] = 1
+
+                # Rule: Exposed to Infected
+                elif grid[i, j, k] == 1 and np.random.rand() < beta:
+                    newGrid[i, j, k] = 2
+
+                # Rule: Infected to Recovered or Dead
+                elif grid[i, j, k] == 2:
+                    if np.random.rand() < alpha:
+                        newGrid[i, j, k] = 3  # Recovered
+                    elif np.random.rand() < delta:
+                        newGrid[i, j, k] = 4  # Dead
+
+    # Update data for each subplot
+    for idx, img in enumerate(imgs):
+        img.set_array(newGrid[:, :, idx])
+
+    grid[:] = newGrid[:]
+    return imgs
+
+# Set up subplots for each layer
+fig, axs = plt.subplots(1, size_z + 1, figsize=(size_z * 4 + 1, 4))
+
+# Initialize subplots with the initial state
+imgs = [ax.imshow(initial_state[:, :, i], cmap='viridis', vmin=0, vmax=4) for i, ax in enumerate(axs[:-1])]
+
+# Set up the animation
+ani = animation.FuncAnimation(fig, update, fargs=(imgs, initial_state, size_x, size_y, size_z),
+                              frames=50, interval=200)
+
+# Add colorbar legend
+cbar_ax = fig.add_axes([0.93, 0.15, 0.02, 0.7])
+cbar = fig.colorbar(imgs[0], cax=cbar_ax, ticks=[0, 1, 2, 3, 4])
+cbar.set_ticklabels(['Susceptible', 'Exposed', 'Infected', 'Recovered', 'Dead'])
+# Create a legend for the different states (for reference)
+legend_elements = [
+    Line2D([0], [0], marker='o', color='white', label='Susceptible', markerfacecolor='white', markersize=10),
+    Line2D([0], [0], marker='o', color='gray', label='Exposed', markerfacecolor='gray', markersize=10),
+    Line2D([0], [0], marker='o', color='orange', label='Infected', markerfacecolor='orange', markersize=10),
+    Line2D([0], [0], marker='o', color='green', label='Recovered', markerfacecolor='green', markersize=10),
+    Line2D([0], [0], marker='o', color='red', label='Dead', markerfacecolor='red', markersize=10)
+]
+# Add legend to the last subplot (for reference)
+axs[-1].legend(handles=legend_elements, loc='center', bbox_to_anchor=(0.5, -0.2), ncol=5)
+
+plt.show()
 
