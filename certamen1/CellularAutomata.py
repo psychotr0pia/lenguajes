@@ -17,11 +17,11 @@ class CustomListener(CAListener):
         variable_value = float(ctx.getChild(2).getText())
 
         if variable_name == 'X':
-            self.CAVariables.size_x = variable_value
+            self.CAVariables.size_x = int(variable_value)
         elif variable_name == 'Y':
-            self.CAVariables.size_y = variable_value
+            self.CAVariables.size_y = int(variable_value)
         elif variable_name == 'Z':
-            self.CAVariables.size_z = variable_value
+            self.CAVariables.size_z = int(variable_value)
         elif variable_name == 'LAMBDA':
             self.CAVariables.lambda_rate = variable_value
         elif variable_name == 'BETA':
@@ -31,7 +31,7 @@ class CustomListener(CAListener):
         elif variable_name == 'DELTA':
             self.CAVariables.delta = variable_value
         elif variable_name == 'INFECTADOS':
-            self.CAVariables.initial_infected = variable_value
+            self.CAVariables.initial_infected = int(variable_value)
 
 class CAVariables:
     def __init__(self, size_x=100, size_y=100, size_z=5, lambda_rate=0.8, beta=0.8, alpha=0.3, delta=0.01, initial_infected=10): #como en el pague inc: mucha contagio y poca mortalidad 
