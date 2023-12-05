@@ -9,7 +9,8 @@ BETA: 'BETA';
 ALPHA: 'ALPHA';
 DELTA: 'DELTA';
 INFECTADOS: 'INFECTADOS';
-NUMBER: ('-'? ('0' | [1-9] DIGIT*) ('.' DIGIT+)?) | ('0' '.' DIGIT+);
+NUMBER: ('-'? ('0' | [1-9] DIGIT*) 
+        ('.' DIGIT+)?) | ('0' '.' DIGIT+);
 
 // Ignore whitespace and newline characters
 WS: [ \t\r\n]+ -> skip;
@@ -19,5 +20,6 @@ fragment DIGIT: [0-9];
 start: argumentos+ EOF;
 
 argumentos: ( variable )+ ;
-variable: ( X | Y | Z | LAMBDA | BETA | ALPHA | DELTA | INFECTADOS ) '=' NUMBER;
+variable: ( X | Y | Z | LAMBDA 
+| BETA | ALPHA | DELTA | INFECTADOS ) '=' NUMBER;
 
