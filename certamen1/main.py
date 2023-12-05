@@ -1,30 +1,27 @@
-import pygame
+import antlr4
+from CALexer import CALexer
+from CAParser import CAParser
+from CAListener import CAListener
 
-pygame.init()
-
-BLACK = (0, 0, 0)
-GREY = (128, 128, 128)
-YELLOW = (255, 255, 0)
-
-WIDTH, HEIGHT = 800, 800
-TILE_SIZE = 20
-GRID_WIDTH = WIDTH // TILE_SIZE
-GRID_HEIGHT = HEIGHT // TILE_SIZE
-FPS = 60
-
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-clock = pygame.time.Clock()
+class MainCAListener(CAListener):
+    # Override the functions as needed
+    def exitStatement(self, ctx):
+        print("Custom exitStatement implementation")
+        # Add your custom logic here
 
 def main():
-    running = True
+    input_stream = antlr4.InputStream("X : 42 Y : 23 Z : 10")
+    lexer = CALexer(input_stream)
+    stream = antlr4.CommonTokenStream(lexer)
+    parser = CAParser(stream)
+    tree = parser.start()
 
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-    
-    pygame.quit()
+    listener = MainCAListener()
+    walker = antlr4.ParseTreeWalker()
+    walker.walk(listener, tree)
 
-if __name__ == "__main__":
+    variables = listener.get_variables()
+    print("Final variables:", variables)
+
+if __name__ == '__main__':
     main()
