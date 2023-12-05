@@ -91,8 +91,7 @@ class CustomListener(PintadorListener):
     def __init__(self, ast):
         self.puntero = Puntero()
         self.ast = ast 
-        self.repetir_count = 0
-
+        
     def enterEstados(self, ctx:PintadorParser.EstadosContext):
         if ctx.PRENDER():
             self.puntero.estado = True
@@ -160,21 +159,6 @@ class CustomListener(PintadorListener):
         self.draw()
         dibujar_node = DibujarNode("DIBUJAR")
         self.ast.ast.append(dibujar_node)    
-
-    def enterRepetir(self, ctx: PintadorParser.RepetirContext):
-        repetition_count = int(ctx.NUMBER().getText())
-        print(f"Repetir {repetition_count} veces:")
-        for _ in range(repetition_count):
-            for command_ctx in ctx.comando():
-                self.enterComando(command_ctx)
-        print("Fin del bucle")
-
-    def enterComando(self, ctx: PintadorParser.ComandoContext):
-        if ctx.estados():
-            self.enterEstados(ctx.estados())
-        elif ctx.rotar():
-            self.enterRotar(ctx.rotar())
-            
     def draw(self):
         if self.puntero.paths_line:
             positions = list(zip(*self.puntero.paths_line))

@@ -172,18 +172,6 @@ class CustomListener(PintadorListener):
             for argumentos_ctx in ctx.argumentos():
                 print(f"Argumentos: {argumentos_ctx.getText()}")
                 self.enterArgumentos(argumentos_ctx)
-
-    def enterArgumentos(self, ctx: PintadorParser.ArgumentosContext):
-        if ctx.estados():
-            self.enterEstados(ctx.estados())
-        elif ctx.movimiento():
-            self.enterMovimiento(ctx.movimiento())
-        elif ctx.rotar():
-            self.enterRotar(ctx.rotar())
-        elif ctx.stats():
-            self.enterStats(ctx.stats())
-        elif ctx.dibujar():
-            self.enterDibujar(ctx.dibujar())
             
     def draw(self):
         if self.puntero.paths_line:

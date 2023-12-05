@@ -10,13 +10,13 @@ else:
 
 def serializedATN():
     return [
-        4,1,10,21,2,0,7,0,2,1,7,1,2,2,7,2,1,0,4,0,8,8,0,11,0,12,0,9,1,0,
-        1,0,1,1,4,1,15,8,1,11,1,12,1,16,1,2,1,2,1,2,0,0,3,0,2,4,0,1,1,0,
-        1,7,19,0,7,1,0,0,0,2,14,1,0,0,0,4,18,1,0,0,0,6,8,3,2,1,0,7,6,1,0,
-        0,0,8,9,1,0,0,0,9,7,1,0,0,0,9,10,1,0,0,0,10,11,1,0,0,0,11,12,5,0,
-        0,1,12,1,1,0,0,0,13,15,3,4,2,0,14,13,1,0,0,0,15,16,1,0,0,0,16,14,
-        1,0,0,0,16,17,1,0,0,0,17,3,1,0,0,0,18,19,7,0,0,0,19,5,1,0,0,0,2,
-        9,16
+        4,1,11,23,2,0,7,0,2,1,7,1,2,2,7,2,1,0,4,0,8,8,0,11,0,12,0,9,1,0,
+        1,0,1,1,4,1,15,8,1,11,1,12,1,16,1,2,1,2,1,2,1,2,1,2,0,0,3,0,2,4,
+        0,1,1,0,2,9,21,0,7,1,0,0,0,2,14,1,0,0,0,4,18,1,0,0,0,6,8,3,2,1,0,
+        7,6,1,0,0,0,8,9,1,0,0,0,9,7,1,0,0,0,9,10,1,0,0,0,10,11,1,0,0,0,11,
+        12,5,0,0,1,12,1,1,0,0,0,13,15,3,4,2,0,14,13,1,0,0,0,15,16,1,0,0,
+        0,16,14,1,0,0,0,16,17,1,0,0,0,17,3,1,0,0,0,18,19,7,0,0,0,19,20,5,
+        1,0,0,20,21,5,10,0,0,21,5,1,0,0,0,2,9,16
     ]
 
 class CAParser ( Parser ):
@@ -29,10 +29,12 @@ class CAParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [  ]
+    literalNames = [ "<INVALID>", "'='", "'X'", "'Y'", "'Z'", "'LAMBDA'", 
+                     "'BETA'", "'ALPHA'", "'DELTA'", "'INFECTADOS'" ]
 
-    symbolicNames = [ "<INVALID>", "X", "Y", "Z", "LAMBDA", "BETA", "ALPHA", 
-                      "DELTA", "ID", "NUMBER", "WS" ]
+    symbolicNames = [ "<INVALID>", "<INVALID>", "X", "Y", "Z", "LAMBDA", 
+                      "BETA", "ALPHA", "DELTA", "INFECTADOS", "NUMBER", 
+                      "WS" ]
 
     RULE_start = 0
     RULE_argumentos = 1
@@ -41,16 +43,17 @@ class CAParser ( Parser ):
     ruleNames =  [ "start", "argumentos", "variable" ]
 
     EOF = Token.EOF
-    X=1
-    Y=2
-    Z=3
-    LAMBDA=4
-    BETA=5
-    ALPHA=6
-    DELTA=7
-    ID=8
-    NUMBER=9
-    WS=10
+    T__0=1
+    X=2
+    Y=3
+    Z=4
+    LAMBDA=5
+    BETA=6
+    ALPHA=7
+    DELTA=8
+    INFECTADOS=9
+    NUMBER=10
+    WS=11
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -108,7 +111,7 @@ class CAParser ( Parser ):
                 self.state = 9 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 254) != 0)):
+                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 1020) != 0)):
                     break
 
             self.state = 11
@@ -186,6 +189,9 @@ class CAParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def NUMBER(self):
+            return self.getToken(CAParser.NUMBER, 0)
+
         def X(self):
             return self.getToken(CAParser.X, 0)
 
@@ -206,6 +212,9 @@ class CAParser ( Parser ):
 
         def DELTA(self):
             return self.getToken(CAParser.DELTA, 0)
+
+        def INFECTADOS(self):
+            return self.getToken(CAParser.INFECTADOS, 0)
 
         def getRuleIndex(self):
             return CAParser.RULE_variable
@@ -230,11 +239,15 @@ class CAParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 18
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 254) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 1020) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
+            self.state = 19
+            self.match(CAParser.T__0)
+            self.state = 20
+            self.match(CAParser.NUMBER)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
