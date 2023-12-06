@@ -1,1 +1,1 @@
-awk -f script.awk gov2_pages.dat > indexINvertido.txt ; python3 quitarStopWords.py
+awk -f script.awk sample_gov.dat > indexINvertido.txt ; python3 quitarStopWords.py
