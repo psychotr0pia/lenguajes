@@ -1,0 +1,6 @@
+Congo	1000	67000000	Africa
+China	3705	1500000000	Asia
+Canada	3852	40000000	America
+USA	3615	400000000	America
+Alemania	96	80000000	Europa
+Argentina	1600	40000000	America

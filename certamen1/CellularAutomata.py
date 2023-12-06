@@ -34,7 +34,10 @@ class CustomListener(CAListener):
             self.CAVariables.initial_infected = int(variable_value)
 
 class CAVariables:
-    def __init__(self, size_x=100, size_y=100, size_z=5, lambda_rate=0.8, beta=0.8, alpha=0.3, delta=0.01, initial_infected=10): #como en el pague inc: mucha contagio y poca mortalidad 
+    def __init__(self, size_x=100, size_y=100, size_z=5, 
+                 lambda_rate=0.8, beta=0.8, 
+                 alpha=0.3, delta=0.01, 
+                 initial_infected=10): #como en el pague inc: mucha contagio y poca mortalidad 
         self.size_x = size_x
         self.size_y = size_y
         self.size_z = size_z
@@ -129,10 +132,12 @@ class CellularAutomata:
         plt.show()
 
 if __name__ == '__main__':
-    # Create an instance of CAVariables with default parameters
+    # Create an instance of CAVariables 
+    # with default parameters
     ca_variables = CAVariables()
 
-    # Create an instance of CellularAutomata with the CAVariables instance
+    # Create an instance of CellularAutomata 
+    # with the CAVariables instance
     ca_instance = CellularAutomata(variables=ca_variables)
 
     # Read the input from the user or from a file
@@ -153,7 +158,8 @@ if __name__ == '__main__':
     # Access the CAVariables from the listener
     ca_variables = custom_listener.CAVariables
 
-    # Now you have the modified CAVariables, you can use it in your CellularAutomata instance
+    # Now you have the modified CAVariables, 
+    # you can use it in your CellularAutomata instance
     ca_instance = CellularAutomata(variables=ca_variables)
 
     # Run the simulation
