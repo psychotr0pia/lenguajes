@@ -1,0 +1,1 @@
+awk -f script.awk gov2_pages.dat > indexINvertido.txt ; python3 quitarStopWords.py
