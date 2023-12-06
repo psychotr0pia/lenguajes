@@ -1,7 +1,6 @@
-function crearIndexInvertido(url, texto, i, tokens) {
+function crearIndexInvertido(url, texto) {
     # separar el texto en tokens
-    split(texto, tokens, /[[:space:]]+/)
-
+    split(texto, tokens, " ")
     # crear el index invertido
     for (i = 1; i <= length(tokens); i++) {
         token = tolower(tokens[i])
